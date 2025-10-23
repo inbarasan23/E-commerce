@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InbaShop - Modern E-commerce</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">
+            InbaShop
+        </a>
+        
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search futuristic products...">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        
+        <div class="nav-links">
+            <div class="nav-item cart" id="cart-icon">
+                <span class="cart-count">0</span>
+                <span><i class="fas fa-shopping-cart"></i> Cart</span>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Future of Shopping</h1>
+            <p>Experience augmented reality commerce</p>
+        </div>
+    </div>
+
+    <select class="category-filter" id="category-filter">
+        <option value="all">All Categories</option>
+        <option value="electronics">Electronics</option>
+        <option value="home">Home Appliances</option>
+    </select>
+
+    <div class="products-container" id="products-section"></div>
+    
+    <!-- Product Detail Page -->
+    <div class="product-detail-page" id="product-detail-page">
+        <button class="back-to-products" id="back-to-products">
+            <i class="fas fa-arrow-left"></i> Back to Products
+        </button>
+        
+        <div class="product-detail-container" id="product-detail-container">
+            <!-- Content will be dynamically inserted -->
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Shopping Cart</h2>
+            <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be dynamically inserted -->
+        </div>
+        
+        <div class="cart-total">
+            Total: ₹<span id="cart-total-price">0.00</span>
+        </div>
+        
+        <div class="cart-actions">
+            <button class="cart-btn checkout-btn" id="checkout-btn">
+                <i class="fas fa-credit-card"></i> Checkout
+            </button>
+            <button class="cart-btn clear-cart" id="clear-cart">Clear Cart</button>
+        </div>
+        
+        <!-- Customer Information Form -->
+        <div class="customer-form" id="customer-form">
+            <div class="form-header">
+                <h3>Complete Your Order</h3>
+                <span style="color: #666; font-size: 0.9rem;">* Required fields</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="customer-name">Full Name *</label>
+                <input type="text" id="customer-name" placeholder="Enter your full name" required>
+                <div class="error-message" id="name-error">Please enter your full name</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="customer-email">Email Address *</label>
+                <input type="email" id="customer-email" placeholder="Enter your email" required>
+                <div class="error-message" id="email-error">Please enter a valid email address</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="customer-phone">Phone Number *</label>
+                <input type="tel" id="customer-phone" placeholder="Enter your phone number" value="9790487064" required>
+                <div class="error-message" id="phone-error">Please enter a valid phone number</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="customer-address">Shipping Address *</label>
+                <textarea id="customer-address" rows="3" placeholder="Enter your complete address" required></textarea>
+                <div class="error-message" id="address-error">Please enter your shipping address</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="customer-bio">Bio (Optional)</label>
+                <textarea id="customer-bio" rows="2" placeholder="Tell us something about yourself"></textarea>
+            </div>
+            
+            <div class="form-buttons">
+                <button class="form-btn cancel-btn" id="cancel-order">Cancel</button>
+                <button class="form-btn submit-btn" id="submit-order">Continue to Payment</button>
+            </div>
+        </div>
+        
+        <!-- Payment Options -->
+        <div class="payment-options" id="payment-options">
+            <h3>Select Payment Method</h3>
+            <div class="payment-method">
+                <button class="payment-btn" id="gpay-btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Google_Pay_%28GPay%29_Logo.svg/640px-Google_Pay_%28GPay%29_Logo.svg.png" alt="Google Pay">
+                    <span>Google Pay</span>
+                </button>
+                <button class="payment-btn" id="cod-btn">
+                    <i class="fas fa-money-bill-wave" style="font-size: 24px;"></i>
+                    <span>Cash on Delivery</span>
+                </button>
+            </div>
+            <div class="form-buttons">
+                <button class="form-btn cancel-btn" id="back-to-form">Back to Details</button>
+            </div>
+        </div>
+        
+        <!-- QR Scanner for GPay -->
+        <div class="qr-scanner" id="qr-scanner">
+            <h3>Scan to Pay with GPay</h3>
+            <p>Scan the QR code using your GPay app to complete payment</p>
+            
+            <div class="qr-code">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=9790487064@ybl&pn=InbaShop&am=${total}&cu=INR" alt="GPay QR Code">
+            </div>
+            
+            <div class="payment-status" id="payment-status">
+                <p class="processing">
+                    <span class="spinner"></span>
+                    Waiting for payment...
+                </p>
+                <p class="success-message">
+                    <i class="fas fa-check-circle"></i> Payment successful!
+                </p>
+            </div>
+            
+            <div class="form-buttons">
+                <button class="form-btn cancel-btn" id="back-to-payment">Change Payment Method</button>
+                <button class="form-btn submit-btn" id="confirm-payment" disabled>Confirm Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Success Modal -->
+    <div class="success-modal" id="success-modal">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>Order Successful!</h3>
+        <p>Thank you for your purchase.</p>
+        
+        <div class="order-details">
+            <h4>Order Summary:</h4>
+            <p id="order-summary"></p>
+            <p>Total: ₹<span id="order-total">0.00</span></p>
+            <p>Payment Method: <span id="payment-method">Google Pay</span></p>
+        </div>
+        
+        <p>Your order will be shipped soon.</p>
+        <button class="continue-btn" id="continue-shopping">Continue Shopping</button>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>InbaShop</h3>
+                <p>Experience the future of shopping with our cutting-edge products and seamless shopping experience.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            
+          
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Coimbatore</p>
+                <p><i class="fas fa-phone"></i> +91 9790487064</p>
+                <p><i class="fas fa-envelope"></i> inbadharma2312@gmail.com</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 InbaShop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

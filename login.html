@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Inba">
+  <meta name="keywords" content="Frontend to build login and register page">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login/Register</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('two.jpg') no-repeat center center/cover;
+      background-color: #1140635b;
+      font-family: Arial, sans-serif;
+    }
+    .wrapper {
+      position: relative;
+      width: 400px;
+      background: transparent;
+      border: 2px solid white;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0,0,0,.5);
+      padding: 40px;
+      color: #162939;
+    }
+    h2 { text-align: center; margin-bottom: 20px; }
+    .input-box { margin: 15px 0; }
+    .input-box input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 30px;
+      border: none;
+      font-size: 16px;
+      background: rgba(255,255,255,0.8);
+      text-align: center;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #162938;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn:hover { background: skyblue; color: black; }
+    .login-reg {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .login-reg a {
+      color: #1192f5;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .login-reg a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <h2 id="form-title">Register</h2>
+  
+  <form id="register-form">
+    <div class="input-box"><input type="text" id="reg-username" placeholder="Username" required></div>
+    <div class="input-box"><input type="email" id="reg-email" placeholder="Email" required></div>
+    <div class="input-box"><input type="password" id="reg-password" placeholder="Password" required></div>
+    <div class="input-box"><input type="password" id="reg-cpassword" placeholder="Confirm Password" required></div>
+    <button type="submit" class="btn">Register</button>
+    <div class="login-reg">Already have an account? <a onclick="toggleForm('login')">Login</a></div>
+  </form>
+
+  <form id="login-form" style="display:none">
+    <div class="input-box">
+      <input type="email" id="login-email" placeholder="Email" required>
+      <span id="error"></span>
+    </div>
+    <div class="input-box">
+      <input type="password" id="login-password" placeholder="Password" required>
+       <span id="error"></span>
+    </div>
+    <button type="submit" class="btn">Login</button>
+    <div class="login-reg">
+      Don't have an account? <a onclick="toggleForm('register')">Register</a >
+    </div>
+  </form>
+</div>
+
+<script>
+  function toggleForm(type) {
+    if (type === "login") {
+      document.getElementById("register-form").style.display = "none";
+      document.getElementById("login-form").style.display = "block";
+      document.getElementById("form-title").innerText = "Login";
+    } else {
+      document.getElementById("register-form").style.display = "block";
+      document.getElementById("login-form").style.display = "none";
+      document.getElementById("form-title").innerText = "Register";
+    }
+  }
+  function showerror(message){
+    document.getElementById("error").textContent=message;
+    showerror("this field is required")
+  }
+
+  function validatePassword(password) {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  }
+
+  document.getElementById("register-form").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let username = document.getElementById("reg-username").value.trim();
+    let email = document.getElementById("reg-email").value.trim();
+    let password = document.getElementById("reg-password").value;
+    let cpassword = document.getElementById("reg-cpassword").value;
+
+    if(!validatePassword(password)) {
+      alert("Password must be at least 8 characters, include uppercase, lowercase, number, and special character.");
+      return;
+    }
+
+    if(password !== cpassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    let user = { username, email, password };
+    localStorage.setItem("user", JSON.stringify(user));
+
+    alert("Registration successful! Please login.");
+    toggleForm("login");
+  });
+
+  document.getElementById("login-form").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let email = document.getElementById("login-email").value.trim();
+    let password = document.getElementById("login-password").value;
+
+    let storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if(storedUser && storedUser.email === email && storedUser.password === password){
+      alert("Login successful! Welcome " + storedUser.username);
+      window.location.href = "index.html"; 
+    } else {
+      alert("Invalid email or password!");
+    }
+  });
+  function span(){
+
+  }
+</script>
+
+</body>
+</html>
